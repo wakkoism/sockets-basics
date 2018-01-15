@@ -14,8 +14,24 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   </head>
-
+  <style>
+    html {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    .messages {
+      overflow: auto;
+      width: 600px;
+      height: 200px;
+      border:1px solid black;
+      margin:10px 10px 10px 0;
+      font-size:12px;
+      padding:10px;
+    }
+  </style>
 <body>
+  <div class="messages">
+    <!-- The incoming message will come here. -->
+  </div>
   <form id="message-form">
     <input type="text" name="message" />
     <input type="submit" value="send" />

@@ -77,21 +77,25 @@ socket.on('connect', function () {
 });
 
 socket.on('message', function (message) {
-  console.log('New message');
-  console.log(message.text);
+  var $messageBox = $('.messages');
+  $messageBox.append('<p>&lt;anonymous&gt;: ' + message.text + '</p>');
 });
 
 // Handles submitting a new message.
 (function ($) {
   $(document).ready(function () {
     var $form = $('#message-form');
+    var $messageBox = $('.messages');
 
     $form.on('submit', function (event) {
       event.preventDefault();
+
       var $message = $form.find('input[name=message]');
       socket.emit('message', {
         text: $message.val()
-      }, $message.val(''));
+      });
+      $messageBox.append('<p>&lt;me&gt;: ' + $message.val() + '</p>');
+      $message.val('');
     });
   });
 })(jQuery);
