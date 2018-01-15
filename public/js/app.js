@@ -81,6 +81,21 @@ socket.on('message', function (message) {
   console.log(message.text);
 });
 
+// Handles submitting a new message.
+(function ($) {
+  $(document).ready(function () {
+    var $form = $('#message-form');
+
+    $form.on('submit', function (event) {
+      event.preventDefault();
+      var $message = $form.find('input[name=message]');
+      socket.emit('message', {
+        text: $message.val()
+      }, $message.val(''));
+    });
+  });
+})(jQuery);
+
 /***/ })
 /******/ ]);
 //# sourceMappingURL=app.js.map
