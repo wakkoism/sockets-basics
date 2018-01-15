@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel --presets es2015 server.js -o server-babel.js",
-    "start": "node server-babel.js",
+    "build": "babel --presets es2015 server.js -o main.js",
+    "start": "node main.js",
     "webpack": "webpack"
   },
   "author": "",
