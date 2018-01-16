@@ -6,7 +6,7 @@ socket.on('connect', () => {
 
 socket.on('message', (message) => {
   const $messageBox = $('.messages');
-  $messageBox.append(`<p>&lt;anonymous&gt;: ${message.text}</p>`);
+  $messageBox.append(`<p>&lt;anonymous&gt;: ${message.text} <span class="date">${message.timestamp}</span></p>`);
 });
 
 // Handles submitting a new message.
@@ -21,8 +21,9 @@ socket.on('message', (message) => {
       const $message = $form.find('input[name=message]');
       socket.emit('message', {
         text: $message.val(),
+        timestamp: moment().format('X'),
       });
-      $messageBox.append(`<p>&lt;me&gt;: ${$message.val()}</p>`);
+      $messageBox.append(`<p>&lt;me&gt;: ${$message.val()} <span class="date">${moment().format('h:mm a')}</span></p>`);
       $message.val('');
     });
   });
