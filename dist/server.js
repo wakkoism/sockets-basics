@@ -23,8 +23,6 @@ var io = require('socket.io')(http);
 
 app.use(_express2.default.static('public'));
 
-console.log(_path2.default.join(__dirname, 'public'));
-
 io.on('connection', function (socket) {
   console.log('User connected via socket.io!');
 
@@ -36,7 +34,7 @@ io.on('connection', function (socket) {
 
   socket.emit('message', {
     text: 'Welcome to the chat application!',
-    'timestamp': (0, _moment2.default)().format('h:mm a')
+    'timestamp': new Number((0, _moment2.default)().utc().format('x'))
   });
 });
 
