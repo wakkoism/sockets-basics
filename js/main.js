@@ -6,7 +6,8 @@ socket.on('connect', () => {
 
 socket.on('message', (message) => {
   const $messageBox = $('.messages');
-  $messageBox.append(`<p>&lt;anonymous&gt;: ${message.text} <span class="date">${moment(message.timestamp).local().format('h:mm a')}</span></p>`);
+  $messageBox.append(`<p><span class="date">[${moment(message.timestamp).local().format('h:mm a')}]</span> &lt;anonymous&gt;: ${message.text}</p>`);
+  $messageBox.scrollTop($messageBox.prop('scrollHeight'));
 });
 
 // Handles submitting a new message.
@@ -24,7 +25,8 @@ socket.on('message', (message) => {
         timestamp,
         text: $message.val(),
       });
-      $messageBox.append(`<p>&lt;me&gt;: ${$message.val()} <span class="date">${moment(timestamp).local().format('h:mm a')}</span></p>`);
+      $messageBox.append(`<p><span class="date">[${moment(timestamp).local().format('h:mm a')}]</span> &lt;me&gt;: ${$message.val()}</p>`);
+      $messageBox.scrollTop($messageBox.prop('scrollHeight'));
       $message.val('');
     });
   });
