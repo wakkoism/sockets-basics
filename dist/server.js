@@ -34,7 +34,7 @@ io.on('connection', function (socket) {
 
   socket.emit('message', {
     text: 'Welcome to the chat application!',
-    'timestamp': (0, _moment2.default)().valueOf()
+    'timestamp': (0, _moment2.default)().utc().valueOf()
   });
 });
 

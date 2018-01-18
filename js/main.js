@@ -20,7 +20,7 @@ socket.on('message', (message) => {
       event.preventDefault();
 
       const $message = $form.find('input[name=message]');
-      const timestamp = moment().valueOf();
+      const timestamp = moment().utc().valueOf();
       socket.emit('message', {
         timestamp,
         text: $message.val(),
