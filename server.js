@@ -13,7 +13,6 @@ app.use(express.static('public'));
 
 io.on('connection', (socket) => {
   console.log('User connected via socket.io!');
-
   socket.on('message', (message) => {
     console.log(`Message received: ${message.text}`)
 
@@ -22,7 +21,7 @@ io.on('connection', (socket) => {
 
   socket.emit('message', {
     text: 'Welcome to the chat application!',
-    'timestamp': moment().utc().valueOf(),
+    timestamp: moment().utc().valueOf(),
   });
 });
 

@@ -22,5 +22,10 @@ gulp.task('webpack', (done) => {
     done();
 });
 
-gulp.task('build', gulp.parallel('babel', 'webpack'));
+gulp.task('watch', ((done) => {
+  gulp.watch(['js/*.js'], gulp.parallel('webpack'));
+  done();
+}));
 
+gulp.task('build', gulp.parallel('babel', 'webpack'));
+gulp.task('debug', gulp.parallel('watch'));

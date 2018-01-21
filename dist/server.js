@@ -25,7 +25,6 @@ app.use(_express2.default.static('public'));
 
 io.on('connection', function (socket) {
   console.log('User connected via socket.io!');
-
   socket.on('message', function (message) {
     console.log('Message received: ' + message.text);
 
@@ -34,7 +33,7 @@ io.on('connection', function (socket) {
 
   socket.emit('message', {
     text: 'Welcome to the chat application!',
-    'timestamp': (0, _moment2.default)().utc().valueOf()
+    timestamp: (0, _moment2.default)().utc().valueOf()
   });
 });
 
