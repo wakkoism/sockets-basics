@@ -18,8 +18,9 @@ socket.on('connect', () => {
 });
 
 socket.on('message', (message) => {
+
+  const user = message.name || 'anonymous';
   const $messageBox = $('.messages');
-  const user = message.name ? message.name : 'anonymous';
   $messageBox.append(`
     <p>
       <span class="date">[${moment(message.timestamp).local().format('h:mm a')}]</span>&nbsp;
@@ -41,16 +42,18 @@ socket.on('message', (message) => {
 
       const $message = $form.find('input[name=message]');
       const timestamp = moment().utc().valueOf();
+      const name = getQueryVariable('name') || 'anonymous';
+
       socket.emit('message', {
         timestamp,
+        name,
         text: $message.val(),
-        name: getQueryVariable('name'),
         room: getQueryVariable('room'),
       });
       $messageBox.append(`
         <p>
           <span class="date">[${moment(timestamp).local().format('h:mm a')}]</span>&nbsp;
-          &lt;${getQueryVariable('name')}&gt;:&nbsp;
+          &lt;${name}&gt;:&nbsp;
           ${$message.val()}
         </p>
       `);
