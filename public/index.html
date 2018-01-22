@@ -28,15 +28,37 @@
       font-size:12px;
       padding:10px;
     }
+    .hide {
+      display: none;
+    }
   </style>
 <body>
-  <div class="messages">
-    <!-- The incoming message will come here. -->
+  <div class="chat-form hide">
+    <form method="GET" enctype="text/plain">
+      <label>
+        Username:
+        <input type name="name" />
+      </label>
+      <label>
+        Room:
+        <input type name="room" />
+      </label>
+      <input type="submit" value="Enter" />
+    </form>
   </div>
-  <form id="message-form">
-    <input type="text" name="message" />
-    <input type="submit" value="send" />
-  </form>
+  <div class="room hide">
+    <p>
+      <a href="/">Change room</a>
+    </p>
+
+    <div class="messages">
+      <!-- The incoming message will come here. -->
+    </div>
+    <form id="message-form">
+      <input type="text" name="message" />
+      <input type="submit" value="send" />
+    </form>
+  </div>
   <script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>

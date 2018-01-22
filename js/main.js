@@ -20,7 +20,7 @@ socket.on('connect', () => {
 socket.on('message', (message) => {
 
   const user = message.name || 'anonymous';
-  const $messageBox = $('.messages');
+  const $messageBox = jQuery('.messages');
   $messageBox.append(`
     <p>
       <span class="date">[${moment(message.timestamp).local().format('h:mm a')}]</span>&nbsp;
@@ -33,7 +33,15 @@ socket.on('message', (message) => {
 
 // Handles submitting a new message.
 (function ($) {
+  const name = getQueryVariable('name').replace('+', ' ') || 'anonymous';
+  const room = getQueryVariable('room').replace('+', ' ') || '';
   $(document).ready(() => {
+    if (!room || name == 'anonymous')  {
+      $('.chat-form').removeClass('hide');
+      return;
+    }
+
+    $('.room').removeClass('hide');
     const $form = $('#message-form');
     const $messageBox = $('.messages');
 
@@ -42,13 +50,12 @@ socket.on('message', (message) => {
 
       const $message = $form.find('input[name=message]');
       const timestamp = moment().utc().valueOf();
-      const name = getQueryVariable('name') || 'anonymous';
 
       socket.emit('message', {
         timestamp,
         name,
+        room,
         text: $message.val(),
-        room: getQueryVariable('room'),
       });
       $messageBox.append(`
         <p>
