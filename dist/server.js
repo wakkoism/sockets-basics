@@ -23,12 +23,27 @@ var io = require('socket.io')(http);
 
 app.use(_express2.default.static('public'));
 
+var clientInfo = {};
+
 io.on('connection', function (socket) {
-  console.log('User connected via socket.io!');
+
+  socket.on('joinRoom', function (request) {
+    request.room = request.room.toLowerCase();
+    socket.join(request.room);
+    socket.broadcast.to(request.room).emit('message', {
+      name: 'System',
+      text: request.name + ' has join!',
+      timestamp: (0, _moment2.default)().utc().valueOf()
+    });
+    clientInfo[socket.id] = request;
+  });
+
   socket.on('message', function (message) {
     console.log('Message received: ' + message.text);
 
-    socket.broadcast.emit('message', message);
+    message.timestamp = (0, _moment2.default)().utc().valueOf();
+
+    socket.broadcast.to(clientInfo[socket.id].room).emit('message', message);
   });
 
   socket.emit('message', {

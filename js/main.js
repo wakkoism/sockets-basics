@@ -11,10 +11,18 @@ function getQueryVariable(variable) {
   return undefined;
 }
 
+const name = getQueryVariable('name') || 'anonymous';
+const room = getQueryVariable('room') || '';
+
 const socket = io();
 
 socket.on('connect', () => {
   console.log('Connected to socket.io server!');
+
+  socket.emit('joinRoom', {
+    name,
+    room,
+  });
 });
 
 socket.on('message', (message) => {
@@ -33,8 +41,6 @@ socket.on('message', (message) => {
 
 // Handles submitting a new message.
 (function ($) {
-  const name = getQueryVariable('name') || 'anonymous';
-  const room = getQueryVariable('room') || '';
   $(document).ready(() => {
     if (!room || name == 'anonymous')  {
       $('.chat-form').removeClass('hide');
