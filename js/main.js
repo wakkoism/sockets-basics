@@ -4,7 +4,7 @@ function getQueryVariable(variable) {
   for (var i = 0; i < vars.length; i++) {
       var pair = vars[i].split('=');
       if (decodeURIComponent(pair[0]) == variable) {
-          return decodeURIComponent(pair[1]);
+          return decodeURIComponent(pair[1].replace(/\+/g, ' '));
       }
   }
 
@@ -33,13 +33,14 @@ socket.on('message', (message) => {
 
 // Handles submitting a new message.
 (function ($) {
-  const name = getQueryVariable('name').replace('+', ' ') || 'anonymous';
-  const room = getQueryVariable('room').replace('+', ' ') || '';
+  const name = getQueryVariable('name') || 'anonymous';
+  const room = getQueryVariable('room') || '';
   $(document).ready(() => {
     if (!room || name == 'anonymous')  {
       $('.chat-form').removeClass('hide');
       return;
     }
+    $('.room-name').text(room);
 
     $('.room').removeClass('hide');
     const $form = $('#message-form');
