@@ -13,15 +13,29 @@ app.use(express.static('public'));
 
 const clientInfo = {};
 
+const timestamp = moment.utc.valueOf();
+
 io.on('connection', (socket) => {
+  socket.on('disconnect', () => {
+    const userData = clientInfo[socket.id];
+    if (typeof clientInfo[socket.id] !== 'undefined') {
+      socket.leave(userData.room);
+      io.to(userData.room).emit('message', {
+        timestamp,
+        name: 'System',
+        text: `${userData.name} has left the room!`,
+      });
+      delete clientInfo[socket.id];
+    }
+  });
 
   socket.on('joinRoom', (request) => {
     request.room = request.room.toLowerCase();
     socket.join(request.room);
     socket.broadcast.to(request.room).emit('message', {
+      timestamp,
       name: 'System',
       text: `${request.name} has join!`,
-      timestamp: moment().utc().valueOf(),
     });
     clientInfo[socket.id] = request;
   });
@@ -29,14 +43,14 @@ io.on('connection', (socket) => {
   socket.on('message', (message) => {
     console.log(`Message received: ${message.text}`);
 
-    message.timestamp = moment().utc().valueOf();
+    message.timestamp = timestamp;
 
     socket.broadcast.to(clientInfo[socket.id].room).emit('message', message);
   });
 
   socket.emit('message', {
+    timestamp,
     text: 'Welcome to the chat application!',
-    timestamp: moment().utc().valueOf(),
   });
 });
 

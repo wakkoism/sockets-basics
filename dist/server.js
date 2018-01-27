@@ -25,15 +25,29 @@ app.use(_express2.default.static('public'));
 
 var clientInfo = {};
 
+var timestamp = _moment2.default.utc.valueOf();
+
 io.on('connection', function (socket) {
+  socket.on('disconnect', function () {
+    var userData = clientInfo[socket.id];
+    if (typeof clientInfo[socket.id] !== 'undefined') {
+      socket.leave(userData.room);
+      io.to(userData.room).emit('message', {
+        timestamp: timestamp,
+        name: 'System',
+        text: userData.name + ' has left the room!'
+      });
+      delete clientInfo[socket.id];
+    }
+  });
 
   socket.on('joinRoom', function (request) {
     request.room = request.room.toLowerCase();
     socket.join(request.room);
     socket.broadcast.to(request.room).emit('message', {
+      timestamp: timestamp,
       name: 'System',
-      text: request.name + ' has join!',
-      timestamp: (0, _moment2.default)().utc().valueOf()
+      text: request.name + ' has join!'
     });
     clientInfo[socket.id] = request;
   });
@@ -41,14 +55,14 @@ io.on('connection', function (socket) {
   socket.on('message', function (message) {
     console.log('Message received: ' + message.text);
 
-    message.timestamp = (0, _moment2.default)().utc().valueOf();
+    message.timestamp = timestamp;
 
     socket.broadcast.to(clientInfo[socket.id].room).emit('message', message);
   });
 
   socket.emit('message', {
-    text: 'Welcome to the chat application!',
-    timestamp: (0, _moment2.default)().utc().valueOf()
+    timestamp: timestamp,
+    text: 'Welcome to the chat application!'
   });
 });
 
