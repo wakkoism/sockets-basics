@@ -120,6 +120,11 @@
 	      $messageBox.scrollTop($messageBox.prop('scrollHeight'));
 	      $message.val('');
 	    });
+	    $form.find('.clear-chat').bind('click', () => {
+	      const $messageBox = jQuery('.messages');
+	      // Clear the message in the message chat.
+	      $messageBox.html('');
+	    });
 	  });
 	})(jQuery);
 
