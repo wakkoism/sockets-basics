@@ -51,6 +51,7 @@ var sendCurrentUsers = function sendCurrentUsers(socket) {
 };
 
 var getSocketIdByName = function getSocketIdByName(name) {
+  name = name.replace('+', ' ');
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;

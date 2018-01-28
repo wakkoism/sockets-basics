@@ -35,7 +35,12 @@ const sendCurrentUsers = (socket) => {
   return users;
 };
 
+/**
+ * @param {string} name
+ *   The username, if spaces, username be a plus to separate the spaces.
+ */
 const getSocketIdByName = (name) => {
+  name = name.replace('+', ' ');
   for (let socketId of Object.keys(clientInfo)) {
     if (clientInfo[socketId].name.toLowerCase().trim() === name.toLowerCase()) {
       return socketId;
