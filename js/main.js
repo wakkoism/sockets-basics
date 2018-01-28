@@ -41,6 +41,13 @@ socket.on('message', (message) => {
 
 // Handles submitting a new message.
 (function ($) {
+  const htmlEncode = (value) => {
+    if (value) {
+      return $('<div />').text(value).html();
+    }
+    return value;
+  };
+
   $(document).ready(() => {
     if (!room || name == 'anonymous')  {
       $('.chat-form').removeClass('hide');
@@ -68,7 +75,7 @@ socket.on('message', (message) => {
         <p>
           <span class="date">[${moment(timestamp).local().format('h:mm a')}]</span>&nbsp;
           &lt;${name}&gt;:&nbsp;
-          ${$message.val()}
+          ${htmlEncode($message.val())}
         </p>
       `);
       $messageBox.scrollTop($messageBox.prop('scrollHeight'));

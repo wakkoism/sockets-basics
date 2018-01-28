@@ -12,6 +12,10 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _htmlencode = require('htmlencode');
+
+var _htmlencode2 = _interopRequireDefault(_htmlencode);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PORT = process.env.PORT || 3000;
@@ -79,6 +83,10 @@ var getSocketIdByName = function getSocketIdByName(name) {
   return false;
 };
 
+var getHelpCommand = function getHelpCommand() {
+  return ['<ul>', '<li><strong>#currentUsers</strong> - Display all the current users.</li>', '<li><strong>@[username] message</strong> - where [username] is the person you want to private message.</li>', '</ul>'].join('');
+};
+
 io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     var userData = clientInfo[socket.id];
@@ -108,12 +116,22 @@ io.on('connection', function (socket) {
     console.log('Message received: ' + message.text);
 
     message.timestamp = timestamp;
+    var firstChr = message.text.substring(0, 1);
     // Check if the code is running a command
-    if (message.text.substring(0, 1) === '@') {
-      var command = message.text.substring(1).split(" ");
+    if (firstChr === '@' || firstChr === '#') {
+      // Only separate the first space.  Second array can contain many spaces.
+      var command = message.text.split(/ (.+)/, 2);
       switch (command[0]) {
+        case '#help':
+          var helpCommand = getHelpCommand();
+          socket.emit('message', {
+            timestamp: timestamp,
+            name: 'System',
+            text: helpCommand
+          });
+          break;
         // Get current user list.
-        case 'currentUsers':
+        case '#currentUsers':
           var currentUsers = sendCurrentUsers(socket);
           socket.emit('message', {
             timestamp: timestamp,
@@ -122,26 +140,24 @@ io.on('connection', function (socket) {
           });
           break;
 
+        // TODO: Instead of doing pm, it's better to use @user and #command
         // Private message a current user in any room.
-        case 'pm':
-          if (command[1]) {
-            var socketId = getSocketIdByName(command[1].trim());
+        default:
+          if (firstChr === '@' && typeof command[1] !== 'undefined' && command[1] !== '') {
+            // Grab the socket ID of the user when using @username
+            var socketId = getSocketIdByName(command[0].substring(1).trim());
             if (socketId) {
-              // TODO figure out how to private message!
               socket.to(socketId).emit('message', {
                 timestamp: timestamp,
                 name: message.name,
-                text: 'Private: ' + command[2]
+                text: 'Private: ' + _htmlencode2.default.htmlEncode(command[1])
               });
             }
           }
           break;
-
-        default:
-          socket.broadcast.to(clientInfo[socket.id].room).emit('message', message);
-          break;
       }
     } else {
+      message.text = _htmlencode2.default.htmlEncode(message.text);
       socket.broadcast.to(clientInfo[socket.id].room).emit('message', message);
     }
   });
