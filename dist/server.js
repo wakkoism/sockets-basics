@@ -50,6 +50,10 @@ var sendCurrentUsers = function sendCurrentUsers(socket) {
   return users;
 };
 
+/**
+ * @param {string} name
+ *   The username, if spaces, username be a plus to separate the spaces.
+ */
 var getSocketIdByName = function getSocketIdByName(name) {
   name = name.replace('+', ' ');
   var _iteratorNormalCompletion = true;
