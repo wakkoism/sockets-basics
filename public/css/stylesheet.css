@@ -17,3 +17,9 @@ html {
 .clear-chat .border-right, .send-message .border-right {
   margin-right: 4px;
 }
+.vertical-center {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
