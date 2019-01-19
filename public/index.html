@@ -22,7 +22,7 @@
     }
     .messages {
       overflow: auto;
-      width: 600px;
+
       height: 200px;
       border:1px solid black;
       margin:10px 10px 10px 0;
@@ -36,16 +36,16 @@
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-md-4 offset-4">
+      <div class="col-md-8 offset-4">
         <div class="chat-form hide">
           <form method="GET" enctype="text/plain">
             <div class="form-group">
               <label for="name">Username:</label>
-              <input type="text" name="name" class="form-control" />
+              <input id="name" type="text" name="name" class="form-control" />
             </div>
             <div class="form-group">
               <label for="room">Room:</label>
-              <input type="text" name="room" class="form-control" />
+              <input id="room" type="text" name="room" class="form-control" />
             </div>
             <div class="form-group">
               <input type="submit" value="Enter" class="btn btn-primary"/>
@@ -61,10 +61,16 @@
           <div class="messages">
             <!-- The incoming message will come here. -->
           </div>
-          <form id="message-form">
-            <input type="text" name="message" />
-            <input type="submit" value="send" />
-            <input type="button" value="clear chat" class="clear-chat" />
+          <form id="message-form" class="form-inline">
+            <div class="form-group mb-2">
+              <input id="message" type="text" name="message" class="form-control" placeholder="Type message..." />
+            </div>
+            <div class="form-group mx-sm-1 mb-2">
+              <input type="submit" value="send" class="btn btn-primary" />
+            </div>
+            <div class="form-group mx-sm-1 mb-2">
+              <input type="button" value="clear chat" class="clear-chat btn btn-warning" />
+            </div>
           </form>
         </div>
       </div>
