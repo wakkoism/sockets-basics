@@ -1,0 +1,19 @@
+html {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.messages {
+  background-color: white;
+  overflow: auto;
+
+  height: 200px;
+  border:1px solid black;
+  margin:10px 10px 10px 0;
+  font-size:12px;
+  padding:10px;
+}
+.hide {
+  display: none;
+}
+.clear-chat .border-right, .send-message .border-right {
+  margin-right: 4px;
+}

@@ -13,36 +13,16 @@
   <![endif]-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/stylesheet.css" />
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.20.1/moment.min.js"></script>
-  </head>
-  <style>
-    html {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    .messages {
-      background-color: white;
-      overflow: auto;
-
-      height: 200px;
-      border:1px solid black;
-      margin:10px 10px 10px 0;
-      font-size:12px;
-      padding:10px;
-    }
-    .hide {
-      display: none;
-    }
-    .clear-chat .border-right, .send-message .border-right {
-      margin-right: 4px;
-    }
-  </style>
+</head>
 <body>
   <div class="container">
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-md-center chat-form hide">
       <div class="col-md-auto card card-header">
-        <div class="chat-form hide">
+        <div class="chat-form-wapper">
           <form method="GET" enctype="text/plain">
             <div class="form-group">
               <label for="name">Username:</label>
@@ -74,9 +54,9 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-md-center">
-      <div class="col-md-auto  card card-header">
-        <div class="room hide">
+    <div class="row justify-content-md-center room hide">
+      <div class="col-md-auto card card-header">
+        <div class="room-wrapper">
           <p>
             <a href="/">Change room</a>
           </p>
